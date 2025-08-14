@@ -244,7 +244,7 @@
         <h1>🎉 Selamat Ulang Tahun HAFIDZ! 🎉</h1>
         <p>Mari kita nyanyikan lagu ulang tahun!</p>
         <div class="lyrics-container" id="animatedText"></div>
-        <audio id="birthdaySong" src="https://files.catbox.moe/0eos0y.mp3"></audio>
+        <audio id="birthdaySong"></audio>
         <button class="btn hidden" id="nextBtn2">Lanjut</button>
     </div>
     
@@ -355,22 +355,32 @@
             screen2.classList.remove('hidden');
             createBalloons();
             
-            const birthdayText = "Hari ini hari yang kau tunggu\nBertambah satu tahun usiamu, bahagialah kamu\nYang kuberi bukan jam dan cincin\nBukan seikat bunga, atau puisi, juga kalung hati\n\nMaaf, bukannya pelit\nAtau nggak mau ngemodal dikit\nYang ingin aku beri padamu doa s'tulus hati\n\nMoga Tuhan melindungi kamu\nSerta tercapai semua angan dan cita-cita mu\nMudah-mudahan dib'ri umur panjang\nSehat selama-lamanya\n\nS'moga Tuhan melindungi kamu\nSerta tercapai semua angan dan cita-citamu\nMudah-mudahan dib'ri umur panjang\nSehat selama-lamanya\nMudah-mudahan dib'ri umur panjang\nSehat selama-lamanya";
+            // Set source audio setelah interaksi pengguna
+            birthdaySong.src = "https://files.catbox.moe/0eos0y.mp3";
             
-            // Mulai memutar lagu
-            birthdaySong.play();
+            const birthdayText = "Hari ini hari yang kau tunggu\nBertambah satu tahun usiamu, bahagialah kamu\nYang kuberi bukan jam dan cincin\nBukan seikat bunga, atau puisi, juga kalung hati\n\nMaaf, bukannya pelit\nAtau nggak mau ngemodal dikit\nYang ingin aku beri padamu doa s'tulus hati\n\nMoga Tuhan melindungi kamu\nSerta tercapai semua angan dan cita-cita mu\nMudah-mudahan dib'ri umur panjang\nSehat selama-lamanya\n\nS'moga Tuhan melindungi kamu\nSerta tercapai semua angan dan cita-citamu\nMudah-mudahan dib'ri umur panjang\nSehat selama-lamanya\nMudah-mudahan dib'ri umur panjang\nSehat selama-lamanya";
             
             // Mulai animasi teks
             animateText(birthdayText, animatedText, 50, () => {
-                // Tampilkan tombol lanjut setelah lagu selesai
-                birthdaySong.onended = () => {
-                    nextBtn2.classList.remove('hidden');
-                };
-                
-                // Juga tampilkan tombol jika lagu selesai sebelum teks selesai
-                setTimeout(() => {
-                    nextBtn2.classList.remove('hidden');
-                }, 30000); // Fallback timeout 30 detik
+                // Tampilkan tombol lanjut setelah teks selesai
+                nextBtn2.classList.remove('hidden');
+            });
+            
+            // Mulai memutar lagu setelah interaksi pengguna
+            birthdaySong.play().then(() => {
+                console.log("Audio started successfully");
+            }).catch(error => {
+                console.log("Audio play failed:", error);
+                // Tampilkan tombol play manual jika otomatis gagal
+                const playButton = document.createElement('button');
+                playButton.className = 'btn';
+                playButton.textContent = 'Putar Lagu';
+                playButton.style.marginTop = '20px';
+                playButton.addEventListener('click', () => {
+                    birthdaySong.play();
+                    playButton.remove();
+                });
+                document.querySelector('#screen2').appendChild(playButton);
             });
         });
         
