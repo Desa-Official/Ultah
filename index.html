@@ -176,6 +176,15 @@
             opacity: 0;
         }
         
+        .lyrics-container {
+            max-height: 200px;
+            overflow-y: auto;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+        }
+        
         @keyframes flicker {
             0%, 100% {
                 transform: scale(1);
@@ -233,9 +242,8 @@
     
     <div class="container hidden" id="screen2">
         <h1>🎉 Selamat Ulang Tahun HAFIDZ! 🎉</h1>
-        <p>nyanyi dulu baru dapet hadiah 🗿</p>
-        <caption>Lirik : Di bawah</caption>
-        <div id="animatedText"></div>
+        <p>Mari kita nyanyikan lagu ulang tahun!</p>
+        <div class="lyrics-container" id="animatedText"></div>
         <audio id="birthdaySong" src="https://files.catbox.moe/0eos0y.mp3"></audio>
         <button class="btn hidden" id="nextBtn2">Lanjut</button>
     </div>
@@ -347,16 +355,22 @@
             screen2.classList.remove('hidden');
             createBalloons();
             
-            const birthdayText = "Hari ini hari yang kau tunggu Bertambah satu tahun usiamu, bahagialah kamu Yang kuberi bukan jam dan cincin Bukan seikat bunga, atau puisi, juga kalung hatiMaaf, bukannya pelit Atau nggak mau ngemodal dikit Yang ingin aku beri padamu doa s'tulus hati' moga Tuhan melindungi kamuSerta tercapai semua angan dan cita-cita muMudah-mudahan dib'ri umur panjangSehat selama-lamanyaS'moga Tuhan melindungi kamuSerta tercapai semua angan dan cita-citamu Mudah-mudahan dib'ri umur panjang Sehat selama-lamanya Mudah-mudahan dib'ri umur panjang Sehat selama-lamanya";
+            const birthdayText = "Hari ini hari yang kau tunggu\nBertambah satu tahun usiamu, bahagialah kamu\nYang kuberi bukan jam dan cincin\nBukan seikat bunga, atau puisi, juga kalung hati\n\nMaaf, bukannya pelit\nAtau nggak mau ngemodal dikit\nYang ingin aku beri padamu doa s'tulus hati\n\nMoga Tuhan melindungi kamu\nSerta tercapai semua angan dan cita-cita mu\nMudah-mudahan dib'ri umur panjang\nSehat selama-lamanya\n\nS'moga Tuhan melindungi kamu\nSerta tercapai semua angan dan cita-citamu\nMudah-mudahan dib'ri umur panjang\nSehat selama-lamanya\nMudah-mudahan dib'ri umur panjang\nSehat selama-lamanya";
             
-            // Mulai animasi teks dan musik
+            // Mulai memutar lagu
+            birthdaySong.play();
+            
+            // Mulai animasi teks
             animateText(birthdayText, animatedText, 50, () => {
-                birthdaySong.play();
-                
                 // Tampilkan tombol lanjut setelah lagu selesai
                 birthdaySong.onended = () => {
                     nextBtn2.classList.remove('hidden');
                 };
+                
+                // Juga tampilkan tombol jika lagu selesai sebelum teks selesai
+                setTimeout(() => {
+                    nextBtn2.classList.remove('hidden');
+                }, 30000); // Fallback timeout 30 detik
             });
         });
         
@@ -398,4 +412,5 @@
             window.open('https://link.dana.id/danakaget?c=suqubqatr&r=fLf4oh&orderId=20250814101214557515010300166717335740071');
         });
     </script>
+</body>
 </html>
